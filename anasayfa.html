@@ -1,0 +1,744 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Özel Galerimiz</title>
+    <style>
+        /* Giriş sayfası stilleri */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #e84393;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        .heart {
+            color: #e84393;
+            font-size: 2rem;
+            animation: pulse 1.5s infinite;
+            display: inline-block;
+            margin: 15px 0;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.3);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e84393;
+            border-radius: 50px;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+            .password-input:focus {
+                border-color: #fd79a8;
+                box-shadow: 0 0 10px rgba(232, 67, 147, 0.5);
+            }
+
+        .login-button {
+            background: #e84393;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+            .login-button:hover {
+                background: #fd79a8;
+                transform: translateY(-3px);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            }
+
+        .error-message {
+            color: #e74c3c;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .hint {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        /* Gizli içerik stilleri (başlangıçta gizli) */
+        .content-container {
+            display: none;
+            max-width: 800px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .content-title {
+            color: #e84393;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .photo-frame {
+            width: 250px;
+            height: 250px;
+            margin: 20px auto;
+            border: 10px solid #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-style: italic;
+        }
+
+            .photo-frame img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+        .message-box {
+            background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #e84393;
+            text-align: left;
+        }
+
+        .secret-button {
+            background: #e84393;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+            .secret-button:hover {
+                background: #fd79a8;
+                transform: translateY(-3px);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            }
+
+        .hidden-message {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background: #ffeaa7;
+            border-radius: 10px;
+            font-style: italic;
+        }
+
+        .countdown {
+            font-size: 1.2rem;
+            margin: 20px 0;
+            color: #e84393;
+            font-weight: bold;
+        }
+
+        footer {
+            margin-top: 30px;
+            color: #636e72;
+            font-size: 0.9rem;
+        }
+
+        /* Slayt stilleri */
+        .slider {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slide {
+            min-width: 100%;
+            text-align: center;
+        }
+
+            .slide img {
+                width: 100%;
+                max-height: 400px;
+                object-fit: cover;
+                display: block;
+            }
+
+        .slide-note {
+            padding: 15px;
+            background: #f8f9fa;
+            font-style: italic;
+            color: #666;
+            border-top: 2px solid #e84393;
+        }
+
+        .slider-nav {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+
+        .slider-button {
+            background: #e84393;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            margin: 0 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .logout-button {
+            background: #636e72;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .content-container {
+                padding: 20px;
+            }
+
+            .content-title {
+                font-size: 2rem;
+            }
+
+            .photo-frame {
+                width: 200px;
+                height: 200px;
+            }
+
+            .slide img {
+                max-height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Giriş Sayfası (HER ZAMAN GÖSTERİLEN) -->
+    <div class="login-container" id="loginContainer">
+        <h1>Özel Galerimiz <span class="heart">❤</span></h1>
+        <p>Sadece bizim bildiğimiz şifre ile girebileceğin özel anılarımız...</p>
+
+        <input type="password" class="password-input" id="password" placeholder="Şifreyi gir" onkeypress="checkEnter(event)">
+        <button class="login-button" onclick="checkPassword()">Giriş Yap</button>
+
+        <p class="error-message" id="errorMessage">Şifre yanlış! Lütfen tekrar dene.</p>
+
+        <p class="hint">İpucu: Özel tarihimiz:)</p>
+    </div>
+
+    <!-- Gizli İçerik Sayfası (ŞİFRE DOĞRUYSA GÖSTERİLECEK) -->
+    <div class="content-container" id="contentContainer">
+        <h1 class="content-title">Senin İçin <span class="heart">❤</span></h1>
+
+        <!-- Slayt (Slider) Bölümü -->
+        <div class="slider">
+            <div class="slides" id="slides">
+                <!-- Slayt 1 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz.jpg" alt="Bizim fotoğrafımız 1">
+                    <div class="slide-note">
+                        <p>İlk buluşmamız... Ta o gün hayatımın değişeceğini anlamıştım.</p>
+                    </div>
+                </div>
+
+                <!-- Slayt 2 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz4.jpg" alt="Bizim fotoğrafımız 2">
+                    <div class="slide-note">
+                        <p>Şunun tipe bak hele yaa </p>
+                        <p>Çokkk seviyorum seni çokk </p>
+                    </div>
+                </div>
+                <!-- Slayt 3 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz1.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>Cuk mu dadlışız ne yaa</p>
+                    </div>
+                </div>
+
+                <!-- Slayt  5-->
+                <div class="slide">
+                    <img src="resimler/fotomuz5.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>En cool fotoğraflarımızdann</p>
+                    </div>
+                </div>
+                <!-- Slayt 6 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz6.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>İlk araba yolculuğumuz.. </p>
+                        <p>Beraber uyanıp beraber evden çıkmıştık.. Evliliğe en yakın hissettiğim anlardan </p>
+                    </div>
+                </div>
+                <!-- Slayt 10 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz10.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>İçim hala buruk..</p>
+                        <p>Eklemeden edemedim</p>
+                    </div>
+                </div>
+                <!-- Slayt 7 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz7.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>İçimdeki çocuğa dokunmanı çok seviyorum</p>
+                    </div>
+                </div>
+                <!-- Slayt 27 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz27.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>Ordaki cool teyze ve amca bana çok tanıdık geliyorlar</p>
+                    </div>
+                </div>
+                <!-- Slayt 8 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz8.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>Seninle yağmurun altında oyunlar oynamak derin sohbetler etmek..</p>
+                    </div>
+                </div>
+
+
+                <!-- Slayt 9 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz9.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>Gülüşümüz hiç solmasın inşallah</p>
+                        <p>(kozalağımız da bitmesin)</p>
+                    </div>
+                </div>
+                <!-- Slayt11 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz11.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>İlk İzmir günümüz </p>
+                        <p>Seversin </p>
+                    </div>
+                </div>
+                <!-- Slayt 12 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz12.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>Kıyafetime uygun çiçek bulman yetenek mi yoksa yokk</p>
+                    </div>
+                </div>
+                <!-- Slayt 13 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz13.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>Yiğidin endamı at üstünde belli olur.</p>
+                    </div>
+                </div>
+                <!-- Slayt 14 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz14.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>Kendi buketimi yaptığım gün :(</p>
+                    </div>
+                </div>
+                <!-- Slayt 15 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz15.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>Kim mezun olmuşş yaaa kimmiş buu :)))</p>
+                    </div>
+                </div>
+                <!-- Slayt 16 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz16.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>Triplerimi özlemişsindir diye ekledim tabi ki</p>
+                        <p>Özledin tabiki yalan söyleme</p>
+                    </div>
+                </div>
+                <!-- Slayt 17 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz17.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>Ne de güzelsindirr beyazlar içinde sen ehehehe</p>
+                    </div>
+                </div>
+                <!-- Slayt 20 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz20.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>Maşallah diyelim çabukk</p>
+                    </div>
+                </div>
+                <!-- Slayt 18 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz18.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>Amaniiin.</p>
+                    </div>
+                </div>
+                <!-- Slayt 19 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz19.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>Küçücük bir sürpriz yapmışsım</p>
+                        <p>Mutluluğun hala gözümün önünde</p>
+                    </div>
+                </div>
+
+                <!-- Slayt 21 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz21.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>Kı ya mammm </p>
+                        <p>Çok canım yanmıştı biliyo musun</p>
+                    </div>
+                </div>
+                <!-- Slayt 22 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz22.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>Elbisem de elbisemmm</p>
+                    </div>
+                </div>
+                <!-- Slayt 23 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz23.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>Şu gün benim 7 saniyem</p>
+                    </div>
+                </div>
+                <!-- Slayt 24 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz24.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>Bakmıyor da şiir okuyor sanki mübarek</p>
+                    </div>
+                </div>
+                <!-- Slayt 25 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz25.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>Ne çok yakışıyor çiçeğin sana</p>
+                    </div>
+                </div>
+                <!-- Slayt 26 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz26.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>Isırcam dayanamıyorum ki artık</p>
+                    </div>
+                </div>
+
+                <!-- Slayt 28 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz28.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>Çok nurlu değil miyiz ya :))</p>
+                    </div>
+                </div>
+                <!-- Slayt 29 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz29.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>Bu çiçeklerin şimdiki sahibi de benim kadar mutlu olsun inşallah</p>
+                    </div>
+                </div>
+
+                <!-- Slayt 4 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz2.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>Bu fotoğrafları her yerde paylaşasım var</p>
+                    </div>
+                </div>
+                <!-- Slayt 30 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz30.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>Nazar diye bir şey olmasa da bize nazar değerdi galiba</p>
+                    </div>
+                </div>
+                <!-- Slayt 31 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz31.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>Ayrılıklar da sevdaya dahilmişşş</p>
+                    </div>
+                </div>
+                <!-- Slayt 32 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz3.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>İlerde çocuklarımızın anne babamın gençliği diye paylaşacakları o fotomuz</p>
+                    </div>
+                </div>
+                <!-- Slayt 33 -->
+                <div class="slide">
+                    <img src="resimler/fotomuz33.jpg" alt="Bizim fotoğrafımız 3">
+                    <div class="slide-note">
+                        <p>Seni o kadar çok özledim ki canım sevgilim </p>
+                        <p>Özlemek terimi seninle anlam buluyor </p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="slider-nav">
+                <button class="slider-button" onclick="prevSlide()">Önceki</button>
+                <button class="slider-button" onclick="nextSlide()">Sonraki</button>
+            </div>
+        </div>
+
+        <p>Bu site, sana olan sevgimi ifade etmek için özel olarak hazırlandı.</p>
+
+        <div class="message-box">
+            <p>Sevgili <strong>[Kocam]</strong>,</p>
+            <p>Her günüm seninle başlayıp seninle bitiyor; yolda yürürken, bisiklete binerken hayatı seninle romantize ediyorum. Aklımdan hiç çıkmıyorsun.</p>
+            <p>Hayatımın altını üstüne getirdiğin için teşekkür ederim sevgilimmm..</p>
+            <p>Dünyaya bin kez daha gelecek olsam bininde de seni arar bulurum, yine seni severim..</p>
+        </div>
+
+        <button class="secret-button" onclick="showSecretMessage()">Özel Mesajım Var</button>
+
+        <div id="hiddenMessage" class="hidden-message">
+            <p>Belki bazen yansıtamıyorum ama lütfen unutma: Seni çok çok çok seviyorum.</p>
+        </div>
+
+        <div class="countdown">
+            <p>Birlikte olduğumuz süre: <span id="daysTogether">0</span> gün</p>
+        </div>
+
+        <div class="heart">❤</div>
+
+        <button class="secret-button logout-button" onclick="logout()">Çıkış Yap</button>
+    </div>
+
+    <footer>
+        <p>© 2025 - Kalbimdesin</p>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+
+        // Şifre kontrolü
+        function checkPassword() {
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            const loginContainer = document.getElementById('loginContainer');
+            const contentContainer = document.getElementById('contentContainer');
+
+            if (password === '0101') {
+                // Şifre doğruysa içerik sayfasını göster, girişi gizle
+                loginContainer.style.display = 'none';
+                contentContainer.style.display = 'block';
+                calculateDaysTogether();
+                createHearts();
+                const music = document.getElementById('backgroundMusic');
+                music.play();
+            } else {
+                // Şifre yanlışsa hata mesajını göster
+                errorMessage.style.display = 'block';
+
+                // Input'u salla (hata efekti)
+                const input = document.getElementById('password');
+                input.style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    input.style.animation = '';
+                    input.value = '';
+                    input.focus();
+                }, 500);
+            }
+        }
+
+        function checkEnter(event) {
+            // Enter tuşuna basıldığında da şifreyi kontrol et
+            if (event.key === 'Enter') {
+                checkPassword();
+            }
+        }
+
+        // Slayt fonksiyonları
+        function showSlide(index) {
+            const slides = document.getElementById('slides');
+            const totalSlides = document.querySelectorAll('.slide').length;
+
+            if (index >= totalSlides) {
+                currentSlide = 0;
+            } else if (index < 0) {
+                currentSlide = totalSlides - 1;
+            } else {
+                currentSlide = index;
+            }
+
+            slides.style.transform = `translateX(${-currentSlide * 100}%)`;
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        // Beraber geçen gün sayısını hesapla
+        function calculateDaysTogether() {
+            // İlişkinizin başlangıç tarihini buraya girin (Yıl, Ay-1, Gün)
+            const startDate = new Date(2024, 11, 31); // Örnek: 1 Ocak 2025
+            const today = new Date();
+            const timeDiff = today.getTime() - startDate.getTime();
+            const daysTogether = Math.floor(timeDiff / (1000 * 3600 * 24));
+            document.getElementById('daysTogether').textContent = daysTogether;
+        }
+
+        // Gizli mesajı göster
+        function showSecretMessage() {
+            const message = document.getElementById('hiddenMessage');
+            if (message.style.display === 'block') {
+                message.style.display = 'none';
+            } else {
+                message.style.display = 'block';
+            }
+        }
+
+        // Ekranda uçuşan kalpler oluştur
+        function createHearts() {
+            const body = document.querySelector('body');
+            const heartCount = 15;
+
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤';
+                heart.style.position = 'fixed';
+                heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+                heart.style.color = '#e84393';
+                heart.style.opacity = Math.random() * 0.5 + 0.1;
+                heart.style.zIndex = -1;
+                heart.style.top = Math.random() * 100 + 'vh';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animation = `floatHeart ${Math.random() * 6 + 4}s linear infinite`;
+
+                body.appendChild(heart);
+            }
+
+            // CSS'e uçuşan kalp animasyonu ekle
+            const style = document.createElement('style');
+            style.innerHTML = `
+                    @keyframes floatHeart {
+                        0% {
+                            transform: translate(0, 0) rotate(0deg);
+                            opacity: 1;
+                        }
+                        100% {
+                            transform: translate(${Math.random() * 100 - 50}vw, -100vh) rotate(360deg);
+                            opacity: 0;
+                        }
+                    }
+
+                    @keyframes shake {
+                        0% { transform: translateX(0); }
+                        20% { transform: translateX(-10px); }
+                        40% { transform: translateX(10px); }
+                        60% { transform: translateX(-10px); }
+                        80% { transform: translateX(10px); }
+                        100% { transform: translateX(0); }
+                    }
+                `;
+            document.head.appendChild(style);
+        }
+
+        // Çıkış yap
+        function logout() {
+            const loginContainer = document.getElementById('loginContainer');
+            const contentContainer = document.getElementById('contentContainer');
+
+            contentContainer.style.display = 'none';
+            loginContainer.style.display = 'block';
+            document.getElementById('password').value = '';
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
+        // Sayfa yüklendiğinde slaytı başlat
+        window.onload = function () {
+            showSlide(0);
+        };
+    </script>
+    <!-- 🔥 Müzik Çalma - BURAYA EKLE -->
+    <audio id="backgroundMusic" loop>
+        <source src="resimler/romantik-sarki.mp3" type="audio/mpeg">
+        Tarayıcınız audio öğesini desteklemiyor.
+    </audio> 
+</body>
+</html>
